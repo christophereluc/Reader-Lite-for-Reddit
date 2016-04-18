@@ -12,7 +12,6 @@
 		830B05051CB0E67500C047CB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830B05041CB0E67500C047CB /* AppDelegate.swift */; };
 		830B05071CB0E67500C047CB /* RedditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830B05061CB0E67500C047CB /* RedditViewController.swift */; };
 		830B050A1CB0E67500C047CB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 830B05081CB0E67500C047CB /* Main.storyboard */; };
-		830B050D1CB0E67500C047CB /* Reader_Lite_for_Reddit.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 830B050B1CB0E67500C047CB /* Reader_Lite_for_Reddit.xcdatamodeld */; };
 		830B050F1CB0E67500C047CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 830B050E1CB0E67500C047CB /* Assets.xcassets */; };
 		830B05121CB0E67500C047CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 830B05101CB0E67500C047CB /* LaunchScreen.storyboard */; };
 		830B051D1CB0E67500C047CB /* Reader_Lite_for_RedditTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830B051C1CB0E67500C047CB /* Reader_Lite_for_RedditTests.swift */; };
@@ -49,7 +48,6 @@
 		830B05041CB0E67500C047CB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		830B05061CB0E67500C047CB /* RedditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedditViewController.swift; sourceTree = "<group>"; };
 		830B05091CB0E67500C047CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		830B050C1CB0E67500C047CB /* Reader_Lite_for_Reddit.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Reader_Lite_for_Reddit.xcdatamodel; sourceTree = "<group>"; };
 		830B050E1CB0E67500C047CB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		830B05111CB0E67500C047CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		830B05131CB0E67500C047CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -131,7 +129,6 @@
 				830B05041CB0E67500C047CB /* AppDelegate.swift */,
 				830B050E1CB0E67500C047CB /* Assets.xcassets */,
 				830B05131CB0E67500C047CB /* Info.plist */,
-				830B050B1CB0E67500C047CB /* Reader_Lite_for_Reddit.xcdatamodeld */,
 				830B05101CB0E67500C047CB /* LaunchScreen.storyboard */,
 			);
 			path = "Reader Lite for Reddit";
@@ -317,7 +314,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				830B05071CB0E67500C047CB /* RedditViewController.swift in Sources */,
-				830B050D1CB0E67500C047CB /* Reader_Lite_for_Reddit.xcdatamodeld in Sources */,
 				83A1F18B1CC35369000A74D4 /* LoadButtonViewCell.swift in Sources */,
 				833F50911CBB62C60025DA29 /* APIConvenience.swift in Sources */,
 				830B05051CB0E67500C047CB /* AppDelegate.swift in Sources */,
@@ -578,19 +574,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		830B050B1CB0E67500C047CB /* Reader_Lite_for_Reddit.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				830B050C1CB0E67500C047CB /* Reader_Lite_for_Reddit.xcdatamodel */,
-			);
-			currentVersion = 830B050C1CB0E67500C047CB /* Reader_Lite_for_Reddit.xcdatamodel */;
-			path = Reader_Lite_for_Reddit.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 830B04F91CB0E67500C047CB /* Project object */;
 }

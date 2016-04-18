@@ -71,6 +71,8 @@ extension APIClient {
                 result, error in
                 if let result = result {
                     if let accesstoken = result[RedditResponseKeys.AccessToken] as? String? {
+                        let sharedPref = NSUserDefaults.standardUserDefaults()
+                        sharedPref.setValue(accesstoken, forKey: "token")
                         self.accessToken = accesstoken
                         resultForCompletionHandler(success: true)
                         return
@@ -94,6 +96,8 @@ extension APIClient {
             let jsonBody = "\(RedditParameterKeys.Token)=\(accessToken)"
             taskForPOSTMethod(Methods.Revoke, params: parameters, jsonBody: jsonBody.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!) {
                 result, error in
+                let sharedPref = NSUserDefaults.standardUserDefaults()
+                sharedPref.setValue(nil, forKey: "token")
                 self.accessToken = nil
                 completionHandler()
             }

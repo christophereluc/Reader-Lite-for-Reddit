@@ -43,7 +43,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="placeholder" id="U2b-BL-jNd">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="placeholder" id="U2b-BL-jNd">
                                                     <rect key="frame" x="15" y="0.0" width="70" height="49"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>

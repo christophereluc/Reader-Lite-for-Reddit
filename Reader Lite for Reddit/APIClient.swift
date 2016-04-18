@@ -21,6 +21,10 @@ class APIClient : NSObject {
     // MARK: Initializers
     
     override init() {
+        let sharedPref = NSUserDefaults.standardUserDefaults()
+        if let token = sharedPref.stringForKey("token") {
+            accessToken = token
+        }
         super.init()
     }
     
