@@ -1,4 +1,6 @@
 //
+//  This project makes me have a very deep hatred for reddit now :(
+//
 //  APIConvenience.swift
 //  Virtual Tourist
 //
@@ -14,7 +16,7 @@ extension APIClient {
     
     // MARK: GET Convenience Methods
     
-    //Gets users's public data (for first/last name)
+    //Gets a subreddit (or front page if none passed in)
     func getSubreddit(subReddit: String?, after: String?, completionHandlerForResult: (data: PageItem?, error: NSError?) -> Void) {
         var parameters = [
             RedditParameterKeys.Count : RedditParameterValues.CountValue
@@ -24,7 +26,7 @@ extension APIClient {
             parameters[RedditParameterKeys.After] = after
         }
         
-        taskForGETMethod(subReddit, params: parameters) {
+        taskForGETMethod(subReddit, params: parameters, useApiMethod: false) {
             (result, error) in
             if let error = error {
                 completionHandlerForResult(data: nil, error: error)
@@ -41,7 +43,7 @@ extension APIClient {
                             if let author = child[RedditResponseKeys.Author] as? String, permalink = child[RedditResponseKeys.Permalink] as? String, title = child[RedditResponseKeys.Title] as? String, url = child[RedditResponseKeys.Url] as? String, id = child[RedditResponseKeys.Id] as? String, domain = child[RedditResponseKeys.Domain] as? String, subreddit = child[RedditResponseKeys.Subreddit] as? String {
                                 //Thumbnail is optional
                                 let thumbnail = child[RedditResponseKeys.Thumbnail] as! String?
-                                posts.append(Post(author: author, permalink: permalink, thumb: thumbnail, title: title, url: url, id: id, domain: domain, subreddit: subreddit))
+                                posts.insert(Post(author: author, permalink: permalink, thumb: thumbnail, title: title, url: url, id: id, domain: domain, subreddit: subreddit), atIndex: 0)
                             }
                         }
                     }
@@ -54,6 +56,46 @@ extension APIClient {
             }
             else {
                 completionHandlerForResult(data: nil, error: error)
+            }
+        }
+    }
+    
+    //retrieves authorization token
+    func retrieveToken(resultForCompletionHandler: (success: Bool) -> Void) {
+        let parameters = [String:String]()
+        
+        if let oneTimeCode = oneTimeCode {
+            //It must be formatted like this.  Reddit wants some funky ass formatting...no joke :(
+            let jsonBody = "\(RedditParameterKeys.Code)=\(oneTimeCode)&\(RedditParameterKeys.GrantType)=\(RedditParameterValues.GrantTypeValue)&\(RedditParameterKeys.Redirect)=\(RedditParameterValues.RedirectValue)"
+            taskForPOSTMethod(Methods.AccessToken, params: parameters, jsonBody: jsonBody.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!) {
+                result, error in
+                if let result = result {
+                    if let accesstoken = result[RedditResponseKeys.AccessToken] as? String? {
+                        self.accessToken = accesstoken
+                        resultForCompletionHandler(success: true)
+                        return
+                    }
+                }
+                resultForCompletionHandler(success: false)
+            }
+            self.oneTimeCode = nil
+        }
+        else {
+            resultForCompletionHandler(success: false)
+        }
+    }
+    
+    //Revokes authorization token
+    func revokeAuthorization(completionHandler: () -> Void ) {
+        let parameters = [String:String]()
+        
+        if let accessToken = accessToken {
+            //It must be formatted like this.  Reddit wants some funky ass formatting...no joke :(
+            let jsonBody = "\(RedditParameterKeys.Token)=\(accessToken)"
+            taskForPOSTMethod(Methods.Revoke, params: parameters, jsonBody: jsonBody.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!) {
+                result, error in
+                self.accessToken = nil
+                completionHandler()
             }
         }
     }

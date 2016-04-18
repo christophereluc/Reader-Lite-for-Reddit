@@ -2,6 +2,8 @@
 //  PageItem.swift
 //  Reader Lite for Reddit
 //
+//  Not stored in core data - since a page's list can change so quickly, it doesn't make sense to cache these
+//
 //  Created by Christopher Luc on 4/13/16.
 //  Copyright © 2016 Christopher Luc. All rights reserved.
 //
@@ -22,6 +24,12 @@ class PageItem {
         }
         else {
             children = [Post]()
+        }
+    }
+    
+    func clearChildrenCache() {
+        for child in children {
+            child.image = nil
         }
     }
 }

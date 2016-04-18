@@ -14,10 +14,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         return true
+    }
+    
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+        if url.scheme == "readerlite" {
+            let components = NSURLComponents(URL: url, resolvingAgainstBaseURL: false)
+            if let queryItems = components?.queryItems as [NSURLQueryItem]? {
+                for queryItem in queryItems {
+                    if queryItem.name == "code" {
+                        APIClient.sharedInstance().oneTimeCode = queryItem.value
+                    }
+                }
+            }
+            // Finish the OAuth flow with this code
+            NSNotificationCenter.defaultCenter().postNotificationName(closeSafariViewControllerNotification, object: url)
+            return true;
+        }
+        return true
+        
     }
 
     func applicationWillResignActive(application: UIApplication) {

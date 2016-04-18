@@ -7,42 +7,63 @@
 //
 
 import UIKit
+import SafariServices
 
-class RedditViewController: UITableViewController{
+let closeSafariViewControllerNotification = "closeSafariViewControllerNotification"
+
+class RedditViewController: UIViewController {
     
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(RedditViewController.handleRefresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        
+        return refreshControl
+    }()
+    
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var login: UIBarButtonItem!
+    
+    var safariVC: SFSafariViewController?
+    var loadingVC: LoadingViewController?
+
     var data = [PageItem]()
+    //Stores the number of posts between all pages
     var total = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.refreshControl = UIRefreshControl()
-        self.refreshControl?.addTarget(self, action: #selector(RedditViewController.handleRefresh(_:)), forControlEvents: UIControlEvents.ValueChanged)}
+        tableView.addSubview(refreshControl)
+        automaticallyAdjustsScrollViewInsets = false
+        updateLoginButton()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(safariLogin(_:)), name: closeSafariViewControllerNotification, object: nil)
+
+    }
     
+    //Utility used to change last item in tableview to loading and starts loading data
     func loadDataAndDisplayIndicator(cell: LoadButtonViewCell) {
         cell.loadText.text = "Loading"
         loadData()
     }
     
+    //Function that handles swiping the list view all the way down
     func handleRefresh(refreshControl: UIRefreshControl) {
         if total > 0 {
-            data.removeAll()
-            total = 0
-            tableView.reloadData()
+            clearAllData()
         }
         let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: total, inSection: 0)) as! LoadButtonViewCell
-        cell.loadText.text = "Loading"
-        loadData()
+        loadDataAndDisplayIndicator(cell)
     }
     
+    //Loads a page of data from the API
     func loadData() {
+        //Send after parameter if we already have a page loaded (get the next page)
         let after = total == 0 ? nil : data.last?.after
-        refreshControl?.endRefreshing()
-        
         APIClient.sharedInstance().getSubreddit(nil, after: after) {
             data, error in
-            if let data = data {
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.refreshControl?.enabled = true
+            dispatch_async(dispatch_get_main_queue()) {
+                self.refreshControl.endRefreshing()
+                if let data = data {
+                    self.refreshControl.enabled = true
                     self.data.append(data)
                     self.total = self.total + data.children.count
                     self.tableView.reloadData()
@@ -51,8 +72,111 @@ class RedditViewController: UITableViewController{
         }
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    @IBAction func loginAction(sender: UIBarButtonItem) {
+        if sender.title == "Login" {
+            let encodedUrl = APIClient.sharedInstance().oAuthUrl
+            safariVC = SFSafariViewController(URL: NSURL(string: encodedUrl)!)
+            presentViewController(safariVC!, animated: true, completion: nil)
+        }
+        else {
+            APIClient.sharedInstance().revokeAuthorization() {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.login.title = "Login"
+                    self.clearAllData()
+                }
+            }
+        }
+    }
+    
+    //Clears data and table
+    func clearAllData() {
+        for item in data {
+            item.clearChildrenCache()
+        }
+        data.removeAll()
+        total = 0
+        tableView.reloadData()
+    }
+
+    //Called on successful login from safari view controller
+    func successfulLogin() {
+        if let loadingVC = loadingVC {
+            loadingVC.dismissViewControllerAnimated(true) {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.clearAllData()
+                    self.loadingVC = nil
+                    self.loadData()
+                }
+            }
+        }
+    }
+    
+    //Called when oAuth failed from safari view controller
+    func failedLogin() {
+        if let loadingVC = loadingVC {
+            loadingVC.dismissViewControllerAnimated(true) {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.loadingVC = nil
+                    APIClient.sharedInstance().oneTimeCode = nil
+                }
+            }
+        }
+    }
+    
+    //Displays the loading indicator and tells the apiclient to retrieve token
+    func displayLoading() {
+        loadingVC = LoadingViewController(message: "Loading...")
+        presentViewController(loadingVC!, animated: true) {
+            dispatch_async(dispatch_get_main_queue()) {
+                APIClient.sharedInstance().retrieveToken() {
+                    success in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        if success && APIClient.sharedInstance().accessToken != nil {
+                            self.successfulLogin()
+                        }
+                        else {
+                            self.failedLogin()
+                        }
+                        self.updateLoginButton()
+                    }
+                }
+            }
+        }
+    }
+
+    
+    
+    func updateLoginButton() {
+        if APIClient.sharedInstance().accessToken != nil {
+            login.title = "Logout"
+        }
+        else {
+            login.title = "Login"
+        }
+    }
+    
+}
+
+//SafariViewController jazz 
+extension RedditViewController: SFSafariViewControllerDelegate {
+    func safariLogin(notification: NSNotification) {
+        // get the url form the auth callback
+        if let safariVC = safariVC {
+            safariVC.dismissViewControllerAnimated(true) {
+                self.displayLoading()
+            }
+        }
+    }
+    
+}
+
+//UITableView stuff
+//Such as custom cells and displaying data
+extension RedditViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        //If we selected the loading cell, start loading more data
         if indexPath.row == total {
             let cell = tableView.cellForRowAtIndexPath(indexPath) as! LoadButtonViewCell
             loadDataAndDisplayIndicator(cell)
@@ -65,51 +189,84 @@ class RedditViewController: UITableViewController{
                 current = current + data[page].children.count
             }
             let post = current - indexPath.row - 1
-            UIApplication.sharedApplication().openURL(NSURL(string: data[page].children[post].url )!)
+            let svc = SFSafariViewController(URL: NSURL(string: data[page].children[post].url )!)
+            presentViewController(svc, animated: true, completion: nil)
         }
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        //+1 for the loading cell
         return total + 1
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.row < total {
-            let cell = tableView.dequeueReusableCellWithIdentifier("Post") as UITableViewCell!
-            var current = data[0].children.count
-            
-            var page = 0
-            while current <= indexPath.row {
-                page = page + 1
-                current = current + data[page].children.count
-            }
-            
-            let post = current - indexPath.row - 1
-            
-            let postData = data[page].children[post]
-            cell.textLabel?.text = postData.title
-            if postData.is_external {
-                cell.detailTextLabel?.text = postData.url
-            }
-            else {
-                cell.detailTextLabel?.text = postData.domain
-            }
-            if let thumbnail = postData.thumbnail {
-                cell.imageView?.image = UIImage(named: thumbnail)
-                cell.imageView?.hidden = false
-            }
-            return cell
+            return configureNormalCell(indexPath)
         }
         else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("Load") as! LoadButtonViewCell!
-            if total == 0 {
-                cell.loadText.text = "Load Data"
-            }
-            else {
-                cell.loadText.text = "Load Next Page"
-            }
-            return cell
+            return configureLoadDataButton()
         }
     }
     
+    func configureNormalCell(indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("Post") as UITableViewCell!
+        var current = data[0].children.count
+        
+        var page = 0
+        while current <= indexPath.row {
+            page = page + 1
+            current = current + data[page].children.count
+        }
+        
+        let post = current - indexPath.row - 1
+        
+        let postData = data[page].children[post]
+        cell.textLabel?.text = postData.title
+        if postData.is_external {
+            cell.detailTextLabel?.text = postData.url
+        }
+        else {
+            cell.detailTextLabel?.text = postData.domain
+        }
+        
+        if let image = postData.image {
+            //Image was cached locally
+            cell.imageView!.image = image
+        }
+        else {
+           
+            //We need to download image
+            cell.imageView!.image = UIImage(named: "placeholder")
+            if let thumbnail = postData.safeUrl {
+                APIClient.sharedInstance().taskForGETImage(thumbnail) {
+                    (imageData, error) in
+                    if let image = UIImage(data: imageData!) {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            //Now make sure that the cell is still in view (so we don't update wrong cell)
+                            if let cellToUpdate = self.tableView.cellForRowAtIndexPath(indexPath) {
+                                postData.image = image
+                                cellToUpdate.imageView!.image = image
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                postData.image = UIImage(named: "placeholder")
+            }
+        }
+        
+        return cell
+    }
+    
+    func configureLoadDataButton() -> LoadButtonViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("Load") as! LoadButtonViewCell!
+        if total == 0 {
+            cell.loadText.text = "Load Data"
+        }
+        else {
+            cell.loadText.text = "Load Next Page"
+        }
+        return cell
+    }
 }

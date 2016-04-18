@@ -21,6 +21,7 @@
 		833F50911CBB62C60025DA29 /* APIConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833F50901CBB62C60025DA29 /* APIConvenience.swift */; };
 		833F50931CBB632E0025DA29 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833F50921CBB632E0025DA29 /* Constants.swift */; };
 		833F50951CBB64700025DA29 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833F50941CBB64700025DA29 /* ImageCache.swift */; };
+		835A385F1CC47A8E009AD0D7 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835A385E1CC47A8E009AD0D7 /* LoadingViewController.swift */; };
 		83A1F18B1CC35369000A74D4 /* LoadButtonViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A1F18A1CC35369000A74D4 /* LoadButtonViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,7 @@
 		833F50901CBB62C60025DA29 /* APIConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIConvenience.swift; sourceTree = "<group>"; };
 		833F50921CBB632E0025DA29 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		833F50941CBB64700025DA29 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		835A385E1CC47A8E009AD0D7 /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		83A1F18A1CC35369000A74D4 /* LoadButtonViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadButtonViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -156,6 +158,7 @@
 		83A1F1831CC30E21000A74D4 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				835A385E1CC47A8E009AD0D7 /* LoadingViewController.swift */,
 				830B05061CB0E67500C047CB /* RedditViewController.swift */,
 			);
 			name = Controller;
@@ -321,6 +324,7 @@
 				833F508F1CBB62BD0025DA29 /* APIClient.swift in Sources */,
 				8300CC6C1CBF5E83006342B9 /* PageItem.swift in Sources */,
 				8300CC6E1CBF5E90006342B9 /* Post.swift in Sources */,
+				835A385F1CC47A8E009AD0D7 /* LoadingViewController.swift in Sources */,
 				833F50951CBB64700025DA29 /* ImageCache.swift in Sources */,
 				833F50931CBB632E0025DA29 /* Constants.swift in Sources */,
 			);

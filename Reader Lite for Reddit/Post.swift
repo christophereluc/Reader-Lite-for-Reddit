@@ -2,6 +2,8 @@
 //  Post.swift
 //  Reader Lite for Reddit
 //
+//  Not stored in core data - since a page's list can change so quickly, it doesn't make sense to cache these
+//
 //  Created by Christopher Luc on 4/13/16.
 //  Copyright © 2016 Christopher Luc. All rights reserved.
 //
@@ -36,5 +38,21 @@ class Post {
     
     var is_external: Bool {
         return domain != "self." + subreddit
+    }
+    
+    var safeUrl : String? {
+        if let _ = thumbnail?.rangeOfString("http") {
+            return thumbnail
+        }
+        return nil
+    }
+    
+    var image : UIImage? {
+        get {
+            return APIClient.Caches.imageCache.imageWithIdentifier(id)
+        }
+        set {
+            APIClient.Caches.imageCache.storeImage(newValue, withIdentifier: id)
+        }
     }
 }
