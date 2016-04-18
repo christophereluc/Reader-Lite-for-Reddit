@@ -1,0 +1,13 @@
+Final Project for Udacity
+
+Reader Lite - A front page reader for Reddit
+
+Usage:
+1) If user has no reddit account, please sign up at www.reddit.com (or else only the default frontpage can be viewed)
+2) Clone repo
+3) Launch with XCode
+4) Click on sign in button
+5) Log in with credentials
+6) Authorize (or decline?) requested permissions by Reddit's oAuth
+7) Scroll through the list
+8) If more data desired, click on the load more data button at the bottom of the list

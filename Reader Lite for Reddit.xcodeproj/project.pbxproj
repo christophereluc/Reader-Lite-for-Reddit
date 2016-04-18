@@ -21,6 +21,7 @@
 		833F50931CBB632E0025DA29 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833F50921CBB632E0025DA29 /* Constants.swift */; };
 		833F50951CBB64700025DA29 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833F50941CBB64700025DA29 /* ImageCache.swift */; };
 		835A385F1CC47A8E009AD0D7 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835A385E1CC47A8E009AD0D7 /* LoadingViewController.swift */; };
+		835A38661CC4B2EF009AD0D7 /* readme in Resources */ = {isa = PBXBuildFile; fileRef = 835A38651CC4B2EF009AD0D7 /* readme */; };
 		83A1F18B1CC35369000A74D4 /* LoadButtonViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A1F18A1CC35369000A74D4 /* LoadButtonViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,7 @@
 		833F50921CBB632E0025DA29 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		833F50941CBB64700025DA29 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		835A385E1CC47A8E009AD0D7 /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		835A38651CC4B2EF009AD0D7 /* readme */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme; sourceTree = "<group>"; };
 		83A1F18A1CC35369000A74D4 /* LoadButtonViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadButtonViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -130,6 +132,7 @@
 				830B050E1CB0E67500C047CB /* Assets.xcassets */,
 				830B05131CB0E67500C047CB /* Info.plist */,
 				830B05101CB0E67500C047CB /* LaunchScreen.storyboard */,
+				835A38651CC4B2EF009AD0D7 /* readme */,
 			);
 			path = "Reader Lite for Reddit";
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				835A38661CC4B2EF009AD0D7 /* readme in Resources */,
 				830B05121CB0E67500C047CB /* LaunchScreen.storyboard in Resources */,
 				830B050F1CB0E67500C047CB /* Assets.xcassets in Resources */,
 				830B050A1CB0E67500C047CB /* Main.storyboard in Resources */,

@@ -68,6 +68,11 @@ class RedditViewController: UIViewController {
                     self.total = self.total + data.children.count
                     self.tableView.reloadData()
                 }
+                else {
+                    let alert = UIAlertController(title: "Error retrieving data", message: "Please try again", preferredStyle: .Alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
             }
         }
     }
@@ -118,6 +123,9 @@ class RedditViewController: UIViewController {
                 dispatch_async(dispatch_get_main_queue()) {
                     self.loadingVC = nil
                     APIClient.sharedInstance().oneTimeCode = nil
+                    let alert = UIAlertController(title: "Error", message: "Failed logging in", preferredStyle: .Alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
                 }
             }
         }
