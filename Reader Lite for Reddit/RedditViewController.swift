@@ -110,8 +110,11 @@ class RedditViewController: UIViewController {
             presentViewController(safariVC!, animated: true, completion: nil)
         }
         else {
+            let lvc = LoadingViewController(message: "Logging out...")
+            self.presentViewController(lvc, animated: true, completion: nil)
             APIClient.sharedInstance().revokeAuthorization() {
                 dispatch_async(dispatch_get_main_queue()) {
+                    lvc.dismissViewControllerAnimated(true, completion: nil)
                     self.logout()
                 }
             }
