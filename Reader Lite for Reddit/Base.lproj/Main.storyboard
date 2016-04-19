@@ -94,6 +94,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Reader Lite" id="69n-WW-GTn">
+                        <barButtonItem key="leftBarButtonItem" image="envelope" id="Af1-WP-q3b" userLabel="Message">
+                            <connections>
+                                <segue destination="wW6-Gz-w6J" kind="show" id="SV4-DJ-02r"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Login" id="eTy-am-H17">
                             <connections>
                                 <action selector="loginAction:" destination="MES-zo-jf9" id="PGM-ZC-C4j"/>
@@ -102,12 +107,102 @@
                     </navigationItem>
                     <connections>
                         <outlet property="login" destination="eTy-am-H17" id="PSB-du-gxc"/>
+                        <outlet property="messageButton" destination="Af1-WP-q3b" id="YRE-NJ-hAD"/>
                         <outlet property="tableView" destination="Sjz-Z2-dQu" id="3g4-Np-1Ar"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rc8-TT-dgZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1182" y="689"/>
+            <point key="canvasLocation" x="748" y="689"/>
+        </scene>
+        <!--Messages-->
+        <scene sceneID="XTS-xZ-P6B">
+            <objects>
+                <viewController title="Messages" id="wW6-Gz-w6J" customClass="MessagesViewController" customModule="Reader_Lite_for_Reddit" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Ygd-C6-837"/>
+                        <viewControllerLayoutGuide type="bottom" id="ba5-vv-eJg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="7nK-Rf-ug0">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wfT-ja-p9f">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Message" rowHeight="100" id="Ttc-Bp-wsu" customClass="MessageViewCell" customModule="Reader_Lite_for_Reddit" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="92" width="600" height="100"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ttc-Bp-wsu" id="iqp-Ew-I1X">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="99"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="Your best friend" translatesAutoresizingMaskIntoConstraints="NO" id="thO-6y-yxL">
+                                                    <rect key="frame" x="59" y="0.0" width="533" height="29"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" red="0.20848130118397487" green="0.20839719287947403" blue="0.22817817408376961" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BrF-FU-29I">
+                                                    <rect key="frame" x="8" y="37" width="584" height="62"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="From: " textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bPq-tM-KsQ">
+                                                    <rect key="frame" x="0.0" y="0.0" width="51" height="29"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="51" id="tnp-Md-Xlo"/>
+                                                        <constraint firstAttribute="height" constant="29" id="v7z-hv-thz"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="BrF-FU-29I" secondAttribute="trailing" constant="8" id="4X4-BM-PXx"/>
+                                                <constraint firstAttribute="trailing" secondItem="thO-6y-yxL" secondAttribute="trailing" constant="8" id="GSj-ck-1Bk"/>
+                                                <constraint firstItem="BrF-FU-29I" firstAttribute="top" secondItem="bPq-tM-KsQ" secondAttribute="bottom" constant="8" id="GdT-1Q-uCp"/>
+                                                <constraint firstItem="BrF-FU-29I" firstAttribute="leading" secondItem="iqp-Ew-I1X" secondAttribute="leading" constant="8" id="KiN-3f-Jth"/>
+                                                <constraint firstItem="thO-6y-yxL" firstAttribute="leading" secondItem="bPq-tM-KsQ" secondAttribute="trailing" constant="8" id="VVd-BI-AHJ"/>
+                                                <constraint firstItem="bPq-tM-KsQ" firstAttribute="top" secondItem="iqp-Ew-I1X" secondAttribute="topMargin" constant="-8" id="aGM-n7-tNn"/>
+                                                <constraint firstItem="BrF-FU-29I" firstAttribute="top" secondItem="thO-6y-yxL" secondAttribute="bottom" constant="8" id="b2h-jY-3Wf"/>
+                                                <constraint firstItem="bPq-tM-KsQ" firstAttribute="leading" secondItem="iqp-Ew-I1X" secondAttribute="leadingMargin" constant="-8" id="gh9-fJ-Rb9"/>
+                                                <constraint firstItem="thO-6y-yxL" firstAttribute="top" secondItem="iqp-Ew-I1X" secondAttribute="top" id="hGc-9q-gBb"/>
+                                                <constraint firstAttribute="bottom" secondItem="BrF-FU-29I" secondAttribute="bottom" id="iba-pp-UVy"/>
+                                                <constraint firstItem="BrF-FU-29I" firstAttribute="top" secondItem="thO-6y-yxL" secondAttribute="bottom" constant="8" id="nee-f7-5im"/>
+                                                <constraint firstItem="BrF-FU-29I" firstAttribute="top" secondItem="thO-6y-yxL" secondAttribute="bottom" constant="8" id="wPH-5u-4C6"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="authorName" destination="thO-6y-yxL" id="Kbj-lH-cd8"/>
+                                            <outlet property="messageBody" destination="BrF-FU-29I" id="Xuh-BF-rZX"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="wW6-Gz-w6J" id="aTc-Ih-PwQ"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="wfT-ja-p9f" firstAttribute="leading" secondItem="7nK-Rf-ug0" secondAttribute="leadingMargin" constant="-20" id="HE9-S0-7tT"/>
+                            <constraint firstItem="wfT-ja-p9f" firstAttribute="top" secondItem="Ygd-C6-837" secondAttribute="bottom" id="Jl9-4y-Mr1"/>
+                            <constraint firstItem="ba5-vv-eJg" firstAttribute="top" secondItem="wfT-ja-p9f" secondAttribute="bottom" id="NPb-co-nXU"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="wfT-ja-p9f" secondAttribute="trailing" constant="-20" id="USD-6z-2mg"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="wfT-ja-p9f" id="HeX-aM-ARx"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H5l-Ws-vOB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1415" y="689"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="eK0-Np-cDh">
@@ -125,10 +220,11 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VKX-Ov-TqF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="562" y="689"/>
+            <point key="canvasLocation" x="92" y="689"/>
         </scene>
     </scenes>
     <resources>
+        <image name="envelope" width="42" height="42"/>
         <image name="placeholder" width="250" height="175"/>
     </resources>
 </document>

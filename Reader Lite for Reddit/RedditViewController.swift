@@ -8,6 +8,7 @@
 
 import UIKit
 import SafariServices
+import CoreData
 
 let closeSafariViewControllerNotification = "closeSafariViewControllerNotification"
 
@@ -20,8 +21,25 @@ class RedditViewController: UIViewController {
         return refreshControl
     }()
     
+    var sharedContext: NSManagedObjectContext {
+        return CoreDataStackManager.sharedInstance().managedObjectContext
+    }
+    
+    lazy var fetchedResultsController: NSFetchedResultsController = {
+        
+        let fetchRequest = NSFetchRequest(entityName: "Message")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "time", ascending: false)]
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                                  managedObjectContext: self.sharedContext,
+                                                                  sectionNameKeyPath: nil,
+                                                                  cacheName: nil)
+        return fetchedResultsController
+        
+    }()
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var login: UIBarButtonItem!
+    @IBOutlet weak var messageButton: UIBarButtonItem!
     
     var safariVC: SFSafariViewController?
     var loadingVC: LoadingViewController?
@@ -32,11 +50,11 @@ class RedditViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateLoginButton()
+        updateMessageButton()
         tableView.addSubview(refreshControl)
         automaticallyAdjustsScrollViewInsets = false
-        updateLoginButton()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(safariLogin(_:)), name: closeSafariViewControllerNotification, object: nil)
-
     }
     
     //Utility used to change last item in tableview to loading and starts loading data
@@ -94,11 +112,24 @@ class RedditViewController: UIViewController {
         else {
             APIClient.sharedInstance().revokeAuthorization() {
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.login.title = "Login"
-                    self.clearAllData()
+                    self.logout()
                 }
             }
         }
+    }
+    
+    func logout() {
+        do {
+            //We need to clear out all messages
+            try self.fetchedResultsController.performFetch()
+            for message in self.fetchedResultsController.fetchedObjects as! [Message] {
+                self.sharedContext.deleteObject(message)
+            }
+            CoreDataStackManager.sharedInstance().saveContext()
+        } catch {}
+        self.clearAllData()
+        self.updateMessageButton()
+        self.updateLoginButton()
     }
     
     //Clears data and table
@@ -119,6 +150,8 @@ class RedditViewController: UIViewController {
                     self.clearAllData()
                     self.loadingVC = nil
                     self.loadData()
+                    self.updateLoginButton()
+                    self.updateMessageButton()
                 }
             }
         }
@@ -132,6 +165,7 @@ class RedditViewController: UIViewController {
                     self.loadingVC = nil
                     APIClient.sharedInstance().oneTimeCode = nil
                     self.updateLoginButton()
+                    self.updateMessageButton()
                     let alert = UIAlertController(title: "Error", message: "Failed logging in", preferredStyle: .Alert)
                     alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
                     self.presentViewController(alert, animated: true, completion: nil)
@@ -154,21 +188,27 @@ class RedditViewController: UIViewController {
                         else {
                             self.failedLogin()
                         }
-                        self.updateLoginButton()
                     }
                 }
             }
         }
     }
 
-    
-    
     func updateLoginButton() {
         if APIClient.sharedInstance().accessToken != nil {
             login.title = "Logout"
         }
         else {
             login.title = "Login"
+        }
+    }
+    
+    func updateMessageButton() {
+        if APIClient.sharedInstance().accessToken != nil {
+            messageButton.enabled = true
+        }
+        else {
+            messageButton.enabled = false
         }
     }
     

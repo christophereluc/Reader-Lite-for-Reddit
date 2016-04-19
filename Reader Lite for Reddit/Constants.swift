@@ -24,6 +24,7 @@ extension APIClient {
         static let Authorize = "/authorize"
         static let Revoke = "/revoke_token"
         static let AccessToken = "/access_token"
+        static let Messages = "/message/inbox"
     }
     
     struct RedditParameterKeys {
@@ -78,6 +79,8 @@ extension APIClient {
         static let Domain = "domain"
         static let Subreddit = "subreddit"
         static let AccessToken = "access_token"
+        static let Body = "body"
+        static let CreatedUtc = "created_utc"
     }
     
     //Special oAuth url for requesting a permanent token from reddit

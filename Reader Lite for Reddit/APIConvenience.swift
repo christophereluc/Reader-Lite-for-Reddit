@@ -75,6 +75,7 @@ extension APIClient {
                         sharedPref.setValue(accesstoken, forKey: "token")
                         self.accessToken = accesstoken
                         resultForCompletionHandler(success: true)
+                        self.getAllMessages(nil)
                         return
                     }
                 }
@@ -88,7 +89,7 @@ extension APIClient {
     }
     
     //Revokes authorization token
-    func revokeAuthorization(completionHandler: () -> Void ) {
+    func revokeAuthorization(completionHandler: () -> Void ) {      
         let parameters = [String:String]()
         
         if let accessToken = accessToken {
@@ -102,6 +103,45 @@ extension APIClient {
                 completionHandler()
             }
         }
+    }
+    
+    func getAllMessages(completionHandler: (()->Void)? ) {
+        let params = [String:String]()
+        if let _ = accessToken {
+            taskForGETMethod(Methods.Messages, params: params, useApiMethod: false) {
+                result, error in
+                
+                if let result = result {
+                    self.sharedContext.performBlockAndWait({
+                        if let data = result[RedditResponseKeys.Data] as? [String:NSObject] {
+                            if let children = data[RedditResponseKeys.Children] as? [[String:NSObject]] {
+                                for child in children {
+                                    if let childData = child[RedditResponseKeys.Data] as? [String:NSObject] {
+                                        if let message = childData[RedditResponseKeys.Body] as? String, author = childData[RedditResponseKeys.Author] as? String, time = childData[RedditResponseKeys.CreatedUtc] as? Double {
+                                            _ = Message(author: author, message: message, time: time, context: self.sharedContext)
+                                        }
+                                    }
+                                }
+                                
+                                do {
+                                    try self.sharedContext.save()
+                                } catch {}
+                            }
+                        }
+                        
+                    })
+                    if completionHandler != nil {
+                        completionHandler!()
+                    }
+                }
+                
+            }
+        }
+    }
+    
+    var sharedContext: NSManagedObjectContext {
+        
+        return CoreDataStackManager.sharedInstance().managedObjectContext
     }
     
 }

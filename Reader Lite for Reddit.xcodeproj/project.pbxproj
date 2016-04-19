@@ -22,6 +22,12 @@
 		833F50951CBB64700025DA29 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833F50941CBB64700025DA29 /* ImageCache.swift */; };
 		835A385F1CC47A8E009AD0D7 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835A385E1CC47A8E009AD0D7 /* LoadingViewController.swift */; };
 		835A38661CC4B2EF009AD0D7 /* readme in Resources */ = {isa = PBXBuildFile; fileRef = 835A38651CC4B2EF009AD0D7 /* readme */; };
+		835A38691CC5D39A009AD0D7 /* ReaderLite.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 835A38671CC5D39A009AD0D7 /* ReaderLite.xcdatamodeld */; };
+		835A386B1CC5D8C6009AD0D7 /* MessageViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835A386A1CC5D8C6009AD0D7 /* MessageViewCell.swift */; };
+		8373AE081CC5DA7A001C32B7 /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8373AE071CC5DA7A001C32B7 /* CoreDataStackManager.swift */; };
+		8373AE0A1CC5DCD9001C32B7 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8373AE091CC5DCD9001C32B7 /* MessagesViewController.swift */; };
+		8373AE0D1CC5E341001C32B7 /* Message+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8373AE0B1CC5E341001C32B7 /* Message+CoreDataProperties.swift */; };
+		8373AE0E1CC5E341001C32B7 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8373AE0C1CC5E341001C32B7 /* Message.swift */; };
 		83A1F18B1CC35369000A74D4 /* LoadButtonViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A1F18A1CC35369000A74D4 /* LoadButtonViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +70,12 @@
 		833F50941CBB64700025DA29 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		835A385E1CC47A8E009AD0D7 /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		835A38651CC4B2EF009AD0D7 /* readme */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme; sourceTree = "<group>"; };
+		835A38681CC5D39A009AD0D7 /* ReaderLite.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ReaderLite.xcdatamodel; sourceTree = "<group>"; };
+		835A386A1CC5D8C6009AD0D7 /* MessageViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewCell.swift; sourceTree = "<group>"; };
+		8373AE071CC5DA7A001C32B7 /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
+		8373AE091CC5DCD9001C32B7 /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
+		8373AE0B1CC5E341001C32B7 /* Message+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Message+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		8373AE0C1CC5E341001C32B7 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		83A1F18A1CC35369000A74D4 /* LoadButtonViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadButtonViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -95,8 +107,11 @@
 		8300CC6A1CBF5E76006342B9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8373AE0B1CC5E341001C32B7 /* Message+CoreDataProperties.swift */,
+				8373AE0C1CC5E341001C32B7 /* Message.swift */,
 				8300CC6B1CBF5E83006342B9 /* PageItem.swift */,
 				8300CC6D1CBF5E90006342B9 /* Post.swift */,
+				835A38671CC5D39A009AD0D7 /* ReaderLite.xcdatamodeld */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -129,9 +144,9 @@
 				83A1F1831CC30E21000A74D4 /* Controller */,
 				8300CC6A1CBF5E76006342B9 /* Model */,
 				830B05041CB0E67500C047CB /* AppDelegate.swift */,
+				8373AE071CC5DA7A001C32B7 /* CoreDataStackManager.swift */,
 				830B050E1CB0E67500C047CB /* Assets.xcassets */,
 				830B05131CB0E67500C047CB /* Info.plist */,
-				830B05101CB0E67500C047CB /* LaunchScreen.storyboard */,
 				835A38651CC4B2EF009AD0D7 /* readme */,
 			);
 			path = "Reader Lite for Reddit";
@@ -160,6 +175,7 @@
 			children = (
 				835A385E1CC47A8E009AD0D7 /* LoadingViewController.swift */,
 				830B05061CB0E67500C047CB /* RedditViewController.swift */,
+				8373AE091CC5DCD9001C32B7 /* MessagesViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -180,6 +196,8 @@
 			children = (
 				83A1F18A1CC35369000A74D4 /* LoadButtonViewCell.swift */,
 				830B05081CB0E67500C047CB /* Main.storyboard */,
+				830B05101CB0E67500C047CB /* LaunchScreen.storyboard */,
+				835A386A1CC5D8C6009AD0D7 /* MessageViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -317,15 +335,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8373AE0A1CC5DCD9001C32B7 /* MessagesViewController.swift in Sources */,
+				835A386B1CC5D8C6009AD0D7 /* MessageViewCell.swift in Sources */,
 				830B05071CB0E67500C047CB /* RedditViewController.swift in Sources */,
 				83A1F18B1CC35369000A74D4 /* LoadButtonViewCell.swift in Sources */,
+				8373AE081CC5DA7A001C32B7 /* CoreDataStackManager.swift in Sources */,
 				833F50911CBB62C60025DA29 /* APIConvenience.swift in Sources */,
 				830B05051CB0E67500C047CB /* AppDelegate.swift in Sources */,
 				833F508F1CBB62BD0025DA29 /* APIClient.swift in Sources */,
+				8373AE0D1CC5E341001C32B7 /* Message+CoreDataProperties.swift in Sources */,
 				8300CC6C1CBF5E83006342B9 /* PageItem.swift in Sources */,
 				8300CC6E1CBF5E90006342B9 /* Post.swift in Sources */,
 				835A385F1CC47A8E009AD0D7 /* LoadingViewController.swift in Sources */,
 				833F50951CBB64700025DA29 /* ImageCache.swift in Sources */,
+				8373AE0E1CC5E341001C32B7 /* Message.swift in Sources */,
+				835A38691CC5D39A009AD0D7 /* ReaderLite.xcdatamodeld in Sources */,
 				833F50931CBB632E0025DA29 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -578,6 +602,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		835A38671CC5D39A009AD0D7 /* ReaderLite.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				835A38681CC5D39A009AD0D7 /* ReaderLite.xcdatamodel */,
+			);
+			currentVersion = 835A38681CC5D39A009AD0D7 /* ReaderLite.xcdatamodel */;
+			path = ReaderLite.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 830B04F91CB0E67500C047CB /* Project object */;
 }
