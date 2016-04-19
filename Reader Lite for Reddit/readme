@@ -3,7 +3,7 @@ Final Project for Udacity
 Reader Lite - A front page reader for Reddit
 
 Usage:
-1) If user has no reddit account, please sign up at www.reddit.com (or else only the default frontpage can be viewed)
+1) If user has no reddit account, please sign up at www.reddit.com (or else only the default frontpage can be viewed -- NOTE: if you haven't customed your front page on the web interface, you probably will still see the default front page.')
 2) Clone repo
 3) Launch with XCode
 4) Click on sign in button
